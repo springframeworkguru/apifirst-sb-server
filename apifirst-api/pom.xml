@@ -70,6 +70,7 @@
                             <generateModelTests>false</generateModelTests>
                             <generateAliasAsModel>false</generateAliasAsModel>
                             <generateApis>false</generateApis>
+                            <modelPackage>guru.springframework.apifirst.model</modelPackage>
                             <configOptions>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <useJakartaEe>true</useJakartaEe>
