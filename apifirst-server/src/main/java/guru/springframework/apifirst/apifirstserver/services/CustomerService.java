@@ -1,4 +1,4 @@
-package guru.springframework.apifirst.apifirstserver.services.CustomerService;
+package guru.springframework.apifirst.apifirstserver.services;
 
 import guru.springframework.apifirst.model.Customer;
 

@@ -1,6 +1,6 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
-import guru.springframework.apifirst.apifirstserver.services.CustomerService.CustomerService;
+import guru.springframework.apifirst.apifirstserver.services.CustomerService;
 import guru.springframework.apifirst.model.Customer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
