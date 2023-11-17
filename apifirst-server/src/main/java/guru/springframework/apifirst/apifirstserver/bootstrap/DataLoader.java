@@ -153,6 +153,7 @@ public class DataLoader implements CommandLineRunner {
             Order order2 = Order.builder()
                     .customer(OrderCustomer.builder()
                             .id(savedCustomer2.getId())
+                            .name(savedCustomer2.getName())
                             .billToAddress(savedCustomer2.getBillToAddress())
                             .shipToAddress(savedCustomer2.getShipToAddress())
                             .phone(savedCustomer2.getPhone())
