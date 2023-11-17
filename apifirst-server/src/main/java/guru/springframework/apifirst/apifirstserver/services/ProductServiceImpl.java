@@ -19,6 +19,11 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
+    public Product saveNewProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
     public List<Product> listProducts() {
         return StreamSupport.stream(productRepository.findAll().spliterator(), false)
                 .toList();

@@ -1,5 +1,6 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
@@ -32,6 +33,9 @@ public class BaseTest {
 
     @Autowired
     Filter validationFilter;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     public MockMvc mockMvc;
 
