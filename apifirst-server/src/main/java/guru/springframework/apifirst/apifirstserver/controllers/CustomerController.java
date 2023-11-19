@@ -4,11 +4,9 @@ import guru.springframework.apifirst.apifirstserver.services.CustomerService;
 import guru.springframework.apifirst.model.Customer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +23,12 @@ public class CustomerController {
     public static final String BASE_URL = "/v1/customers";
 
     private final CustomerService customerService;
+
+    @PostMapping
+    ResponseEntity<Void> saveNewCustomer(@RequestBody Customer customer){
+        Customer savedCustomer = customerService.saveNewCustomer(customer);
+        return ResponseEntity.created(URI.create(BASE_URL + "/" + savedCustomer.getId())).build();
+    }
 
     @GetMapping
     public ResponseEntity<List<Customer>> listCustomers(){

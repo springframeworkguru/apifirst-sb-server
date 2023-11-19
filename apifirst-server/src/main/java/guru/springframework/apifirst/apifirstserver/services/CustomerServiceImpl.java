@@ -19,6 +19,11 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
 
     @Override
+    public Customer saveNewCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
+    @Override
     public List<Customer> listCustomers() {
         return StreamSupport.stream(customerRepository.findAll().spliterator(), false)
                 .toList();
