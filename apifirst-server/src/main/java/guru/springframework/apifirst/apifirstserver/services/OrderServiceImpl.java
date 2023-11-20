@@ -31,11 +31,15 @@ public class OrderServiceImpl implements OrderService {
                 .customer(OrderCustomer.builder()
                         .id(orderCustomer.getId())
                         .name(orderCustomer.getName())
+                        .billToAddress(orderCustomer.getBillToAddress())
+                        .shipToAddress(orderCustomer.getShipToAddress())
+                        .phone(orderCustomer.getPhone())
                         .selectedPaymentMethod(orderCustomer.getPaymentMethods().stream()
                                 .filter(paymentMethod -> paymentMethod.getId()
                                         .equals(orderCreate.getSelectPaymentMethod()))
                                 .findFirst().orElseThrow())
-                        .build());
+                        .build())
+                .orderStatus(Order.OrderStatusEnum.NEW);
 
         List<OrderLine> orderLines = new ArrayList<>();
 
