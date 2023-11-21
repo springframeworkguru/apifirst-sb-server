@@ -1,7 +1,7 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
 import guru.springframework.apifirst.apifirstserver.services.CustomerService;
-import guru.springframework.apifirst.model.Customer;
+import guru.springframework.apifirst.model.CustomerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,18 +25,18 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    ResponseEntity<Void> saveNewCustomer(@RequestBody Customer customer){
-        Customer savedCustomer = customerService.saveNewCustomer(customer);
+    ResponseEntity<Void> saveNewCustomer(@RequestBody CustomerDto customer){
+        CustomerDto savedCustomer = customerService.saveNewCustomer(customer);
         return ResponseEntity.created(URI.create(BASE_URL + "/" + savedCustomer.getId())).build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> listCustomers(){
+    public ResponseEntity<List<CustomerDto>> listCustomers(){
         return ResponseEntity.ok(customerService.listCustomers());
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable("customerId") UUID customerId) {
+    public ResponseEntity<CustomerDto> getCustomerById(@PathVariable("customerId") UUID customerId) {
         return ResponseEntity.ok(customerService.getCustomerById(customerId));
     }
 }

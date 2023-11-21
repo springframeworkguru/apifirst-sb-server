@@ -1,8 +1,8 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
 import guru.springframework.apifirst.apifirstserver.services.OrderService;
-import guru.springframework.apifirst.model.Order;
-import guru.springframework.apifirst.model.OrderCreate;
+import guru.springframework.apifirst.model.OrderCreateDto;
+import guru.springframework.apifirst.model.OrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +28,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Void> saveNewOrder(@RequestBody OrderCreate orderCreate){
-        Order savedOrder = orderService.saveNewOrder(orderCreate);
+    public ResponseEntity<Void> saveNewOrder(@RequestBody OrderCreateDto orderCreate){
+        OrderDto savedOrder = orderService.saveNewOrder(orderCreate);
 
         UriComponents uriComponents = UriComponentsBuilder.fromPath(BASE_URL + "/{orderId}")
                .buildAndExpand(savedOrder.getId());
@@ -38,12 +38,12 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Order>> listOrders(){
+    public ResponseEntity<List<OrderDto>> listOrders(){
         return ResponseEntity.ok(orderService.listOrders());
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getProductById(@PathVariable("orderId") UUID orderId) {
+    public ResponseEntity<OrderDto> getProductById(@PathVariable("orderId") UUID orderId) {
         return ResponseEntity.ok(orderService.getOrderById(orderId));
     }
 }

@@ -1,7 +1,7 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
 import guru.springframework.apifirst.apifirstserver.services.ProductService;
-import guru.springframework.apifirst.model.Product;
+import guru.springframework.apifirst.model.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +25,8 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Void> saveNewProduct(@RequestBody Product product){
-        Product savedProduct = productService.saveNewProduct(product);
+    public ResponseEntity<Void> saveNewProduct(@RequestBody ProductDto product){
+        ProductDto savedProduct = productService.saveNewProduct(product);
 
         UriComponents uriComponents = UriComponentsBuilder.fromPath(BASE_URL + "/{product_id}")
                 .buildAndExpand(savedProduct.getId());
@@ -35,12 +35,12 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> listProducts(){
+    public ResponseEntity<List<ProductDto>> listProducts(){
         return ResponseEntity.ok(productService.listProducts());
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<Product> getProductById(@PathVariable("productId") UUID productId) {
+    public ResponseEntity<ProductDto> getProductById(@PathVariable("productId") UUID productId) {
         return ResponseEntity.ok(productService.getProductById(productId));
     }
 }

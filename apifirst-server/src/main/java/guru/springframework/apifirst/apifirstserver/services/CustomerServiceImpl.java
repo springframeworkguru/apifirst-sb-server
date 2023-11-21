@@ -1,7 +1,7 @@
 package guru.springframework.apifirst.apifirstserver.services;
 
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
-import guru.springframework.apifirst.model.Customer;
+import guru.springframework.apifirst.model.CustomerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,18 +19,18 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
 
     @Override
-    public Customer saveNewCustomer(Customer customer) {
+    public CustomerDto saveNewCustomer(CustomerDto customer) {
         return customerRepository.save(customer);
     }
 
     @Override
-    public List<Customer> listCustomers() {
+    public List<CustomerDto> listCustomers() {
         return StreamSupport.stream(customerRepository.findAll().spliterator(), false)
                 .toList();
     }
 
     @Override
-    public Customer getCustomerById(UUID customerId) {
+    public CustomerDto getCustomerById(UUID customerId) {
         return customerRepository.findById(customerId).orElseThrow();
     }
 }

@@ -1,7 +1,8 @@
 package guru.springframework.apifirst.apifirstserver.services;
 
-import guru.springframework.apifirst.model.Order;
-import guru.springframework.apifirst.model.OrderCreate;
+
+import guru.springframework.apifirst.model.OrderCreateDto;
+import guru.springframework.apifirst.model.OrderDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,9 +11,9 @@ import java.util.UUID;
  * Created by jt, Spring Framework Guru.
  */
 public interface OrderService {
-    List<Order> listOrders();
+    List<OrderDto> listOrders();
 
-    Order getOrderById(UUID orderId);
+    OrderDto getOrderById(UUID orderId);
 
-    Order saveNewOrder(OrderCreate orderCreate);
+    OrderDto saveNewOrder(OrderCreateDto orderCreate);
 }

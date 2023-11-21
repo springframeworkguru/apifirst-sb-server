@@ -1,6 +1,6 @@
 package guru.springframework.apifirst.apifirstserver.services;
 
-import guru.springframework.apifirst.model.Customer;
+import guru.springframework.apifirst.model.CustomerDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,9 +9,9 @@ import java.util.UUID;
  * Created by jt, Spring Framework Guru.
  */
 public interface CustomerService {
-    List<Customer> listCustomers();
+    List<CustomerDto> listCustomers();
 
-    Customer getCustomerById(UUID customerId);
+    CustomerDto getCustomerById(UUID customerId);
 
-    Customer saveNewCustomer(Customer customer);
+    CustomerDto saveNewCustomer(CustomerDto customer);
 }
