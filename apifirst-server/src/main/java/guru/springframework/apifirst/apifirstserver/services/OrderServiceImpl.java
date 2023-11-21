@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
                         .phone(orderCustomer.getPhone())
                         .selectedPaymentMethod(orderCustomer.getPaymentMethods().stream()
                                 .filter(paymentMethod -> paymentMethod.getId()
-                                        .equals(orderCreate.getSelectPaymentMethod()))
+                                        .equals(orderCreate.getSelectPaymentMethodId()))
                                 .findFirst().orElseThrow())
                         .build())
                 .orderStatus(Order.OrderStatusEnum.NEW);
