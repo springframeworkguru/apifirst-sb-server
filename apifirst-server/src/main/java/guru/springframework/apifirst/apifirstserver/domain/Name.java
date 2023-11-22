@@ -15,18 +15,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-public class Customer {
+public class Name {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36, columnDefinition = "char(36)", updatable = false, nullable = false)
-    private UUID id;
-
-    @Embedded
-    private Name name;
-
-    private String email;
-    private String phone;
+    private String prefix;
+    private String firstName;
+    private String lastName;
+    private String suffix;
 }
