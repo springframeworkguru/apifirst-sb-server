@@ -2,7 +2,9 @@ package guru.springframework.apifirst.apifirstserver.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.OffsetDateTime;
@@ -29,6 +31,18 @@ public class Address {
     private String city;
     private String state;
     private String zip;
+
+    @CreationTimestamp
     private OffsetDateTime dateCreated;
+
+    @UpdateTimestamp
     private OffsetDateTime dateUpdated;
 }
+
+
+
+
+
+
+
+

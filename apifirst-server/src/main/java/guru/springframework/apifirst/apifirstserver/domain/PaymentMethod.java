@@ -2,7 +2,9 @@ package guru.springframework.apifirst.apifirstserver.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.OffsetDateTime;
@@ -33,6 +35,19 @@ public class PaymentMethod {
     private Integer expiryMonth;
     private Integer expiryYear;
     private Integer cvv;
+
+    @CreationTimestamp
     private OffsetDateTime dateCreated;
+
+    @UpdateTimestamp
     private OffsetDateTime dateUpdated;
 }
+
+
+
+
+
+
+
+
+
