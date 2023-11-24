@@ -1,8 +1,5 @@
 package guru.springframework.apifirst.apifirstserver.domain;
 
-import guru.springframework.apifirst.model.CategoryDto;
-import guru.springframework.apifirst.model.DimensionsDto;
-import guru.springframework.apifirst.model.ImageDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

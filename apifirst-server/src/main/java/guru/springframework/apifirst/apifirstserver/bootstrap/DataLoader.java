@@ -3,7 +3,10 @@ package guru.springframework.apifirst.apifirstserver.bootstrap;
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
-import guru.springframework.apifirst.model.*;
+import guru.springframework.apifirst.model.AddressDto;
+import guru.springframework.apifirst.model.CustomerDto;
+import guru.springframework.apifirst.model.NameDto;
+import guru.springframework.apifirst.model.PaymentMethodDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -74,114 +77,114 @@ public class DataLoader implements CommandLineRunner {
                             .build()))
                     .build();
 
-            CustomerDto savedCustomer1 = customerRepository.save(customer1);
-            CustomerDto savedCustomer2 = customerRepository.save(customer2);
-
-            ProductDto product1 = ProductDto.builder()
-                    .description("Product 1")
-                    .categories(List.of(CategoryDto.builder()
-                                    .category("Category 1")
-                                    .description("Category 1 Description")
-                            .build()))
-                    .cost("12.99")
-                    .price("14.99")
-                    .dimensions(DimensionsDto.builder()
-                            .height(1)
-                            .length(2)
-                            .width(3)
-                            .build())
-                    .images(List.of(ImageDto.builder()
-                                    .url("http://example.com/image1")
-                                    .altText("Image 1")
-                            .build()))
-                    .build();
-
-            ProductDto product2 = ProductDto.builder()
-                    .description("Product 2")
-                    .categories(List.of(CategoryDto.builder()
-                            .category("Category 2")
-                            .description("Category 2 Description")
-                            .build()))
-                    .cost("12.99")
-                    .price("14.99")
-                    .dimensions(DimensionsDto.builder()
-                            .height(1)
-                            .length(2)
-                            .width(3)
-                            .build())
-                    .images(List.of(ImageDto.builder()
-                            .url("http://example.com/image2")
-                            .altText("Image 2")
-                            .build()))
-                    .build();
-
-            ProductDto savedProduct1 = productRepository.save(product1);
-            ProductDto savedProduct2 = productRepository.save(product2);
-
-            OrderDto order1 = OrderDto.builder()
-                    .customer(OrderCustomerDto.builder()
-                            .id(savedCustomer1.getId())
-                            .name(savedCustomer1.getName())
-                            .billToAddress(savedCustomer1.getBillToAddress())
-                            .shipToAddress(savedCustomer1.getShipToAddress())
-                            .phone(savedCustomer1.getPhone())
-                            .selectedPaymentMethod(savedCustomer1.getPaymentMethods().get(0))
-                            .build())
-                    .orderStatus(OrderDto.OrderStatusEnum.NEW)
-                    .shipmentInfo("shipment info")
-                    .orderLines(List.of(OrderLineDto.builder()
-                            .product(OrderProductDto.builder()
-                                    .id(savedProduct1.getId())
-                                    .description(product1.getDescription())
-                                    .price(product1.getPrice())
-                                    .build())
-                            .orderQuantity(1)
-                            .shipQuantity(1)
-                            .build(),
-                            OrderLineDto.builder()
-                                    .product(OrderProductDto.builder()
-                                            .id(savedProduct2.getId())
-                                            .description(product2.getDescription())
-                                            .price(product1.getPrice())
-                                            .build())
-                                    .orderQuantity(1)
-                                    .shipQuantity(1)
-                                    .build()))
-                    .build();
-
-            OrderDto order2 = OrderDto.builder()
-                    .customer(OrderCustomerDto.builder()
-                            .id(savedCustomer2.getId())
-                            .name(savedCustomer2.getName())
-                            .billToAddress(savedCustomer2.getBillToAddress())
-                            .shipToAddress(savedCustomer2.getShipToAddress())
-                            .phone(savedCustomer2.getPhone())
-                            .selectedPaymentMethod(savedCustomer2.getPaymentMethods().get(0))
-                            .build())
-                    .orderStatus(OrderDto.OrderStatusEnum.NEW)
-                    .shipmentInfo("shipment info #2")
-                    .orderLines(List.of(OrderLineDto.builder()
-                                    .product(OrderProductDto.builder()
-                                            .id(savedProduct1.getId())
-                                            .description(product1.getDescription())
-                                            .price(product1.getPrice())
-                                            .build())
-                                    .orderQuantity(1)
-                                    .shipQuantity(1)
-                                    .build(),
-                            OrderLineDto.builder()
-                                    .product(OrderProductDto.builder()
-                                            .id(savedProduct2.getId())
-                                            .description(product2.getDescription())
-                                            .price(product1.getPrice())
-                                            .build())
-                                    .orderQuantity(1)
-                                    .shipQuantity(1)
-                                    .build()))
-                    .build();
-
-            orderRepository.save(order1);
-            orderRepository.save(order2);
+//            CustomerDto savedCustomer1 = customerRepository.save(customer1);
+//            CustomerDto savedCustomer2 = customerRepository.save(customer2);
+//
+//            ProductDto product1 = ProductDto.builder()
+//                    .description("Product 1")
+//                    .categories(List.of(CategoryDto.builder()
+//                                    .category("Category 1")
+//                                    .description("Category 1 Description")
+//                            .build()))
+//                    .cost("12.99")
+//                    .price("14.99")
+//                    .dimensions(DimensionsDto.builder()
+//                            .height(1)
+//                            .length(2)
+//                            .width(3)
+//                            .build())
+//                    .images(List.of(ImageDto.builder()
+//                                    .url("http://example.com/image1")
+//                                    .altText("Image 1")
+//                            .build()))
+//                    .build();
+//
+//            ProductDto product2 = ProductDto.builder()
+//                    .description("Product 2")
+//                    .categories(List.of(CategoryDto.builder()
+//                            .category("Category 2")
+//                            .description("Category 2 Description")
+//                            .build()))
+//                    .cost("12.99")
+//                    .price("14.99")
+//                    .dimensions(DimensionsDto.builder()
+//                            .height(1)
+//                            .length(2)
+//                            .width(3)
+//                            .build())
+//                    .images(List.of(ImageDto.builder()
+//                            .url("http://example.com/image2")
+//                            .altText("Image 2")
+//                            .build()))
+//                    .build();
+//
+//            ProductDto savedProduct1 = productRepository.save(product1);
+//            ProductDto savedProduct2 = productRepository.save(product2);
+//
+//            OrderDto order1 = OrderDto.builder()
+//                    .customer(OrderCustomerDto.builder()
+//                            .id(savedCustomer1.getId())
+//                            .name(savedCustomer1.getName())
+//                            .billToAddress(savedCustomer1.getBillToAddress())
+//                            .shipToAddress(savedCustomer1.getShipToAddress())
+//                            .phone(savedCustomer1.getPhone())
+//                            .selectedPaymentMethod(savedCustomer1.getPaymentMethods().get(0))
+//                            .build())
+//                    .orderStatus(OrderDto.OrderStatusEnum.NEW)
+//                    .shipmentInfo("shipment info")
+//                    .orderLines(List.of(OrderLineDto.builder()
+//                            .product(OrderProductDto.builder()
+//                                    .id(savedProduct1.getId())
+//                                    .description(product1.getDescription())
+//                                    .price(product1.getPrice())
+//                                    .build())
+//                            .orderQuantity(1)
+//                            .shipQuantity(1)
+//                            .build(),
+//                            OrderLineDto.builder()
+//                                    .product(OrderProductDto.builder()
+//                                            .id(savedProduct2.getId())
+//                                            .description(product2.getDescription())
+//                                            .price(product1.getPrice())
+//                                            .build())
+//                                    .orderQuantity(1)
+//                                    .shipQuantity(1)
+//                                    .build()))
+//                    .build();
+//
+//            OrderDto order2 = OrderDto.builder()
+//                    .customer(OrderCustomerDto.builder()
+//                            .id(savedCustomer2.getId())
+//                            .name(savedCustomer2.getName())
+//                            .billToAddress(savedCustomer2.getBillToAddress())
+//                            .shipToAddress(savedCustomer2.getShipToAddress())
+//                            .phone(savedCustomer2.getPhone())
+//                            .selectedPaymentMethod(savedCustomer2.getPaymentMethods().get(0))
+//                            .build())
+//                    .orderStatus(OrderDto.OrderStatusEnum.NEW)
+//                    .shipmentInfo("shipment info #2")
+//                    .orderLines(List.of(OrderLineDto.builder()
+//                                    .product(OrderProductDto.builder()
+//                                            .id(savedProduct1.getId())
+//                                            .description(product1.getDescription())
+//                                            .price(product1.getPrice())
+//                                            .build())
+//                                    .orderQuantity(1)
+//                                    .shipQuantity(1)
+//                                    .build(),
+//                            OrderLineDto.builder()
+//                                    .product(OrderProductDto.builder()
+//                                            .id(savedProduct2.getId())
+//                                            .description(product2.getDescription())
+//                                            .price(product1.getPrice())
+//                                            .build())
+//                                    .orderQuantity(1)
+//                                    .shipQuantity(1)
+//                                    .build()))
+//                    .build();
+//
+//            orderRepository.save(order1);
+//            orderRepository.save(order2);
         }
 }
 

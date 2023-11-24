@@ -28,10 +28,10 @@ public class Customer {
     @Column(length = 36, columnDefinition = "char(36)", updatable = false, nullable = false)
     private UUID id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address shipToAddress;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address billToAddress;
 
     @Embedded
@@ -40,8 +40,15 @@ public class Customer {
     private String email;
     private String phone;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<PaymentMethod> paymentMethods;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.paymentMethods != null && !this.paymentMethods.isEmpty()) {
+            this.paymentMethods.forEach(paymentMethod -> paymentMethod.setCustomer(this));
+        }
+    }
 
     @CreationTimestamp
     private OffsetDateTime dateCreated;

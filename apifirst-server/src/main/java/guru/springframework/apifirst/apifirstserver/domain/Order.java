@@ -1,7 +1,5 @@
 package guru.springframework.apifirst.apifirstserver.domain;
 
-import guru.springframework.apifirst.model.OrderDto;
-import guru.springframework.apifirst.model.OrderLineDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,6 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "order_header") //order is a reserved word in SQL
 public class Order {
 
     @Id
