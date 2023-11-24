@@ -1,7 +1,9 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
-import guru.springframework.apifirst.model.OrderCreate;
-import guru.springframework.apifirst.model.OrderLineCreate;
+//import guru.springframework.apifirst.model.OrderCreate;
+//import guru.springframework.apifirst.model.OrderLineCreate;
+import guru.springframework.apifirst.model.OrderCreateDto;
+import guru.springframework.apifirst.model.OrderLineCreateDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -19,10 +21,10 @@ class OrderControllerTest extends BaseTest {
 
     @Test
     void testCreateOrder() throws Exception {
-        OrderCreate orderCreate = OrderCreate.builder()
+        OrderCreateDto orderCreate = OrderCreateDto.builder()
                 .customerId(testCustomer.getId())
-                .selectPaymentMethod(testCustomer.getPaymentMethods().get(0).getId())
-                .orderLines(Arrays.asList(OrderLineCreate.builder()
+                .selectPaymentMethodId(testCustomer.getPaymentMethods().get(0).getId())
+                .orderLines(Arrays.asList(OrderLineCreateDto.builder()
                         .productId(testProduct.getId())
                         .orderQuantity(1)
                         .build()))
