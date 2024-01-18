@@ -1,9 +1,9 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
-import guru.springframework.apifirst.model.Address;
-import guru.springframework.apifirst.model.Customer;
-import guru.springframework.apifirst.model.Name;
-import org.junit.jupiter.api.Disabled;
+
+import guru.springframework.apifirst.apifirstserver.domain.Address;
+import guru.springframework.apifirst.apifirstserver.domain.Customer;
+import guru.springframework.apifirst.apifirstserver.domain.Name;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

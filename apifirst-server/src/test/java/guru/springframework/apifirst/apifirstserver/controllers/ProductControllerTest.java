@@ -1,9 +1,11 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
-import guru.springframework.apifirst.model.Category;
-import guru.springframework.apifirst.model.Dimentions;
-import guru.springframework.apifirst.model.Image;
-import guru.springframework.apifirst.model.Product;
+
+import guru.springframework.apifirst.apifirstserver.domain.Category;
+import guru.springframework.apifirst.apifirstserver.domain.Dimension;
+import guru.springframework.apifirst.apifirstserver.domain.Image;
+import guru.springframework.apifirst.apifirstserver.domain.Product;
+import guru.springframework.apifirst.model.DimensionsDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -12,7 +14,6 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -34,7 +35,7 @@ class ProductControllerTest extends BaseTest {
                         .url("http://example.com/image.jpg")
                         .altText("Image Alt Text")
                         .build()))
-                .dimentions(Dimentions.builder()
+                .dimensions(Dimension.builder()
                         .length(10)
                         .width(10)
                         .height(10)
