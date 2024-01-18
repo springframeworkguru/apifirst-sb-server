@@ -3,14 +3,13 @@ package guru.springframework.apifirst.apifirstserver.services;
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
-import guru.springframework.apifirst.model.*;
+import guru.springframework.apifirst.model.OrderCreateDto;
+import guru.springframework.apifirst.model.OrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.StreamSupport;
 
 /**
  * Created by jt, Spring Framework Guru.

@@ -1,9 +1,9 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
-import guru.springframework.apifirst.model.Address;
-import guru.springframework.apifirst.model.Customer;
-import guru.springframework.apifirst.model.Name;
-import org.junit.jupiter.api.Disabled;
+
+import guru.springframework.apifirst.model.AddressDto;
+import guru.springframework.apifirst.model.CustomerDto;
+import guru.springframework.apifirst.model.NameDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,20 +23,20 @@ public class CustomerControllerTest extends BaseTest {
     @DisplayName("Test Create Customer")
     @Test
     void testCreateCustomer() throws Exception {
-        Customer customer = Customer.builder()
-                .name(Name.builder()
+        CustomerDto customer = CustomerDto.builder()
+                .name(NameDto.builder()
                         .lastName("Doe")
                         .firstName("John")
                         .build())
                 .phone("555-555-5555")
                 .email("john@example.com")
-                .shipToAddress(Address.builder()
+                .shipToAddress(AddressDto.builder()
                         .addressLine1("123 Main St")
                         .city("Denver")
                         .state("CO")
                         .zip("80216")
                         .build())
-                .billToAddress(Address.builder()
+                .billToAddress(AddressDto.builder()
                         .addressLine1("123 Main St")
                         .city("Denver")
                         .state("CO")

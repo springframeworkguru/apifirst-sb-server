@@ -26,6 +26,7 @@ public class Category {
     private UUID id;
     private String category;
     private String description;
+    private String categoryCode;
 
     @ManyToMany(mappedBy = "categories")
     private List<Product> products;

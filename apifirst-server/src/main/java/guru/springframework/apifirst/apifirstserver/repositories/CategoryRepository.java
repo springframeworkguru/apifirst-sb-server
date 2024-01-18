@@ -1,6 +1,6 @@
 package guru.springframework.apifirst.apifirstserver.repositories;
 
-import guru.springframework.apifirst.apifirstserver.domain.Customer;
+import guru.springframework.apifirst.apifirstserver.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
@@ -8,5 +8,5 @@ import java.util.UUID;
 /**
  * Created by jt, Spring Framework Guru.
  */
-public interface CustomerRepository extends JpaRepository<Customer, UUID> {
+public interface CategoryRepository extends JpaRepository<Category, UUID> {
 }
