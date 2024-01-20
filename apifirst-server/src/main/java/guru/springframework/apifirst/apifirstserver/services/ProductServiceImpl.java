@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by jt, Spring Framework Guru.
@@ -27,14 +28,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> listProducts() {
-//        return StreamSupport.stream(productRepository.findAll().spliterator(), false)
-//                .toList();
-        return null;
+        return StreamSupport.stream(productRepository.findAll().spliterator(), false)
+                .map(productMapper::productToDto)
+                .toList();
     }
 
     @Override
     public ProductDto getProductById(UUID productId) {
-        //return productRepository.findById(productId).orElseThrow();
-        return null;
+        return productMapper.productToDto(productRepository.findById(productId).orElseThrow());
     }
 }
