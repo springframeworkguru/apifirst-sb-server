@@ -28,7 +28,7 @@ class ProductControllerTest extends BaseTest {
                 .description("New Product")
                 .cost("5.00")
                 .price("8.95")
-                .categories(Arrays.asList("NEW_CATRGORY"))
+                .categories(Arrays.asList("ELECTRONICS"))
                 .images(Arrays.asList(ImageDto.builder()
                         .url("http://example.com/image.jpg")
                         .altText("Image Alt Text")

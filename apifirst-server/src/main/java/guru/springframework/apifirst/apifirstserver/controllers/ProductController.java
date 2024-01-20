@@ -1,6 +1,7 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
 import guru.springframework.apifirst.apifirstserver.services.ProductService;
+import guru.springframework.apifirst.model.ProductCreateDto;
 import guru.springframework.apifirst.model.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Void> saveNewProduct(@RequestBody ProductDto product){
+    public ResponseEntity<Void> saveNewProduct(@RequestBody ProductCreateDto product){
         ProductDto savedProduct = productService.saveNewProduct(product);
 
         UriComponents uriComponents = UriComponentsBuilder.fromPath(BASE_URL + "/{product_id}")
