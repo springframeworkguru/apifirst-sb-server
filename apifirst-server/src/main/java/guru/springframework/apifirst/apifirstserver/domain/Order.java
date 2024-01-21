@@ -33,6 +33,9 @@ public class Order {
     @ManyToOne
     private Customer customer;
 
+    @ManyToOne
+    private PaymentMethod selectedPaymentMethod;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private OrderStatusEnum orderStatus = OrderStatusEnum.NEW;
