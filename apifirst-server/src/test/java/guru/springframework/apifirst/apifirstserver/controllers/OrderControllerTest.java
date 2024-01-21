@@ -6,6 +6,7 @@ import guru.springframework.apifirst.model.OrderLineCreateDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class OrderControllerTest extends BaseTest {
 
     @Test
+    @Transactional
     void testCreateOrder() throws Exception {
         OrderCreateDto orderCreate = OrderCreateDto.builder()
                 .customerId(testCustomer.getId())
