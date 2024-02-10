@@ -1,6 +1,8 @@
 package guru.springframework.apifirst.apifirstserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -26,7 +28,12 @@ public class Image {
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(length = 36, columnDefinition = "char(36)", updatable = false, nullable = false)
     private UUID id;
+
+    @NotNull
+    @Size(min=5,max=500)
     private String url;
+
+    @Size(min=3,max=255)
     private String altText;
 
     @ManyToOne
