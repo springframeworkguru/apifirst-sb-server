@@ -1,9 +1,11 @@
 package guru.springframework.apifirst.apifirstserver.services;
 
+import guru.springframework.apifirst.apifirstserver.domain.Product;
 import guru.springframework.apifirst.apifirstserver.mappers.ProductMapper;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
 import guru.springframework.apifirst.model.ProductCreateDto;
 import guru.springframework.apifirst.model.ProductDto;
+import guru.springframework.apifirst.model.ProductUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,14 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+
+    @Override
+    public ProductDto updateProduct(UUID productId, ProductUpdateDto product) {
+        Product existingProduct = productRepository.findById(productId).orElseThrow();
+        productMapper.updateProduct(product, existingProduct);
+
+        return productMapper.productToDto(productRepository.save(existingProduct));
+    }
 
     @Override
     public ProductDto saveNewProduct(ProductCreateDto product) {
