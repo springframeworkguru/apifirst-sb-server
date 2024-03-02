@@ -14,4 +14,6 @@ public interface CustomerService {
     CustomerDto getCustomerById(UUID customerId);
 
     CustomerDto saveNewCustomer(CustomerDto customer);
+
+    CustomerDto updateCustomer(UUID customerId, CustomerDto customer);
 }

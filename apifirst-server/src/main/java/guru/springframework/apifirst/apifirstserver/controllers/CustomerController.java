@@ -24,6 +24,13 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    @PutMapping("/{customerId}")
+    ResponseEntity<CustomerDto> updateCustomer(@PathVariable("customerId") UUID customerId,
+                                               @RequestBody CustomerDto customer){
+        CustomerDto savedCustomer = customerService.updateCustomer(customerId, customer);
+        return ResponseEntity.ok(savedCustomer);
+    }
+
     @PostMapping
     ResponseEntity<Void> saveNewCustomer(@RequestBody CustomerDto customer){
         CustomerDto savedCustomer = customerService.saveNewCustomer(customer);

@@ -1,5 +1,6 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
+import guru.springframework.apifirst.apifirstserver.domain.Customer;
 import guru.springframework.apifirst.model.AddressDto;
 import guru.springframework.apifirst.model.CustomerDto;
 import guru.springframework.apifirst.model.NameDto;
@@ -7,10 +8,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -18,6 +20,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest
 public class CustomerControllerTest extends BaseTest {
+
+
+    //test update customer
+    @Transactional
+    @DisplayName("Test Update Customer")
+    @Test
+    void testUpdateCustomer() throws Exception {
+        Customer customer = customerRepository.findAll().iterator().next();
+
+        customer.getName().setFirstName("Updated");
+        customer.getName().setLastName("Updated2");
+        customer.getPaymentMethods().get(0).setDisplayName("NEW NAME");
+
+        mockMvc.perform(put(CustomerController.BASE_URL + "/{customerId}", testCustomer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerMapper.customerToDto(customer))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name.firstName", equalTo("Updated")))
+                .andExpect(jsonPath("$.name.lastName", equalTo("Updated2")))
+                .andExpect(jsonPath("$.paymentMethods[0].displayName", equalTo("NEW NAME")));
+    }
 
     @DisplayName("Test Create Customer")
     @Test

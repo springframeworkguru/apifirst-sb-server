@@ -24,6 +24,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional
     @Override
+    public CustomerDto updateCustomer(UUID customerId, CustomerDto customer) {
+        Customer existingCustomer = customerRepository.findById(customerId).orElseThrow();
+        customerMapper.updateCustomer(customer, existingCustomer);
+
+        return customerMapper.customerToDto(customerRepository.save(existingCustomer));
+    }
+
+    @Transactional
+    @Override
     public CustomerDto saveNewCustomer(CustomerDto customer) {
         Customer savedCustomer = customerRepository.save(customerMapper.dtoToCustomer(customer));
         customerRepository.flush();
