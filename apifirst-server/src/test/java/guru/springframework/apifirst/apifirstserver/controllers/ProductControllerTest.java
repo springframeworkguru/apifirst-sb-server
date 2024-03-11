@@ -3,10 +3,7 @@ package guru.springframework.apifirst.apifirstserver.controllers;
 
 import guru.springframework.apifirst.apifirstserver.config.OpenApiValidationConfig;
 import guru.springframework.apifirst.apifirstserver.domain.Product;
-import guru.springframework.apifirst.model.DimensionsDto;
-import guru.springframework.apifirst.model.ImageDto;
-import guru.springframework.apifirst.model.ProductCreateDto;
-import guru.springframework.apifirst.model.ProductUpdateDto;
+import guru.springframework.apifirst.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -23,6 +20,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Import(OpenApiValidationConfig.class)
 class ProductControllerTest extends BaseTest {
+
+    @Transactional
+    @Test
+    void testPatchProduct() throws Exception {
+
+        Product product = productRepository.findAll().iterator().next();
+
+        ProductPatchDto productPatchDto = productMapper.productToPatchDto(product);
+
+        productPatchDto.setDescription("Updated Description");
+
+        mockMvc.perform(patch(ProductController.BASE_URL + "/{productId}", product.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productPatchDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.description", equalTo("Updated Description")));
+    }
 
     @Transactional
     @Test
