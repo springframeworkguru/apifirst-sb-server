@@ -2,15 +2,14 @@ package guru.springframework.apifirst.apifirstserver.controllers;
 
 
 import guru.springframework.apifirst.apifirstserver.domain.Order;
-import guru.springframework.apifirst.model.OrderCreateDto;
-import guru.springframework.apifirst.model.OrderLineCreateDto;
-import guru.springframework.apifirst.model.OrderUpdateDto;
+import guru.springframework.apifirst.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -19,6 +18,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 class OrderControllerTest extends BaseTest {
+
+    @Test
+    @Transactional
+    void testPatchOrder() throws Exception {
+
+        Order order = orderRepository.findAll().get(0);
+
+        OrderPatchDto orderPatch = OrderPatchDto.builder()
+                .orderLines(Collections.singletonList(OrderLinePatchDto.builder()
+                        .id(order.getOrderLines().get(0).getId())
+                        .orderQuantity(333)
+                        .build()))
+                .build();
+
+        mockMvc.perform(patch(OrderController.BASE_URL + "/{orderId}", testOrder.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(orderPatch))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(testOrder.getId().toString())))
+                .andExpect(jsonPath("$.orderLines[0].orderQuantity", equalTo(333)));
+    }
 
     @Test
     @Transactional

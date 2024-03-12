@@ -3,6 +3,7 @@ package guru.springframework.apifirst.apifirstserver.controllers;
 import guru.springframework.apifirst.apifirstserver.services.OrderService;
 import guru.springframework.apifirst.model.OrderCreateDto;
 import guru.springframework.apifirst.model.OrderDto;
+import guru.springframework.apifirst.model.OrderPatchDto;
 import guru.springframework.apifirst.model.OrderUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,13 @@ public class OrderController {
     public static final String BASE_URL = "/v1/orders";
 
     private final OrderService orderService;
+
+    @PatchMapping("/{orderId}")
+    public ResponseEntity<OrderDto> patchOrder(@PathVariable("orderId") UUID orderId,
+                                               @RequestBody OrderPatchDto orderPatchDto){
+        OrderDto savedOrder = orderService.patchOrder(orderId, orderPatchDto);
+        return ResponseEntity.ok(savedOrder);
+    }
 
     @PutMapping("/{orderId}")
     public ResponseEntity<OrderDto> updateOrder(@PathVariable("orderId") UUID orderId,

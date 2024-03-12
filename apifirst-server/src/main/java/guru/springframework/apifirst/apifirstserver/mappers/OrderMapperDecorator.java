@@ -5,6 +5,7 @@ import guru.springframework.apifirst.apifirstserver.repositories.CustomerReposit
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
 import guru.springframework.apifirst.model.OrderCreateDto;
 import guru.springframework.apifirst.model.OrderDto;
+import guru.springframework.apifirst.model.OrderPatchDto;
 import guru.springframework.apifirst.model.OrderUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,6 +30,42 @@ public abstract class OrderMapperDecorator implements OrderMapper {
 
     @Autowired
     private PaymentMethodMapper paymentMethodMapper;
+
+    @Override
+    public void patchOrder(OrderPatchDto orderPatchDto, Order target) {
+        delegate.patchOrder(orderPatchDto, target);
+
+        if (orderPatchDto.getCustomerId() != null) {
+            Customer customer = customerRepository.findById(orderPatchDto.getCustomerId()).orElseThrow();
+            target.setCustomer(customer);
+        }
+
+        if (orderPatchDto.getSelectPaymentMethodId() != null) {
+            PaymentMethod selectedPaymentMethod = target.getCustomer().getPaymentMethods().stream()
+                    .filter(pm -> pm.getId().equals(orderPatchDto.getSelectPaymentMethodId()))
+                    .findFirst()
+                    .orElseThrow();
+            target.setSelectedPaymentMethod(selectedPaymentMethod);
+        }
+
+        if (orderPatchDto.getOrderLines() != null && !orderPatchDto.getOrderLines().isEmpty()) {
+            orderPatchDto.getOrderLines().forEach(orderLinePatchDto -> {
+                OrderLine existingOrderLine = target.getOrderLines().stream()
+                        .filter(ol -> ol.getId().equals(orderLinePatchDto.getId()))
+                        .findFirst()
+                        .orElseThrow();
+
+                if (orderLinePatchDto.getProductId() != null) {
+                    Product product = productRepository.findById(orderLinePatchDto.getProductId()).orElseThrow();
+                    existingOrderLine.setProduct(product);
+                }
+
+                if (orderLinePatchDto.getOrderQuantity() != null) {
+                    existingOrderLine.setOrderQuantity(orderLinePatchDto.getOrderQuantity());
+                }
+            });
+        }
+    }
 
     @Override
     public void updateOrder(OrderUpdateDto orderDto, Order order) {
