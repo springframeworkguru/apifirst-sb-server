@@ -21,6 +21,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class CustomerControllerTest extends BaseTest {
 
+    @Test
+    void testDeleteCustomer() throws Exception {
+        CustomerDto customer = buildTestCustomerDto();
+        Customer savedCustomer = customerRepository.save(customerMapper.dtoToCustomer(customer));
+
+        mockMvc.perform(delete(CustomerController.BASE_URL + "/{customerId}", savedCustomer.getId()))
+                .andExpect(status().isNoContent());
+
+        assert customerRepository.findById(savedCustomer.getId()).isEmpty();
+    }
 
     @Transactional
     @DisplayName("Test Update Customer")
@@ -73,7 +83,17 @@ public class CustomerControllerTest extends BaseTest {
     @DisplayName("Test Create Customer")
     @Test
     void testCreateCustomer() throws Exception {
-        CustomerDto customer = CustomerDto.builder()
+        CustomerDto customer = buildTestCustomerDto();
+
+        mockMvc.perform(post(CustomerController.BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customer)))
+                .andExpect(status().isCreated())
+                .andExpect(header().exists("Location"));
+    }
+
+    private CustomerDto buildTestCustomerDto() {
+        return CustomerDto.builder()
                 .name(NameDto.builder()
                         .lastName("Doe")
                         .firstName("John")
@@ -93,12 +113,6 @@ public class CustomerControllerTest extends BaseTest {
                         .zip("80216")
                         .build())
                 .build();
-
-        mockMvc.perform(post(CustomerController.BASE_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(customer)))
-                .andExpect(status().isCreated())
-                .andExpect(header().exists("Location"));
     }
 
     @DisplayName("Get by Id")

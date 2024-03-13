@@ -25,6 +25,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional
     @Override
+    public void deleteCustomer(UUID customerId) {
+        customerRepository.deleteById(customerId);
+    }
+
+    @Transactional
+    @Override
     public CustomerDto patchCustomer(UUID customerId, CustomerPatchDto customer) {
         Customer existingCustomer = customerRepository.findById(customerId).orElseThrow();
 
