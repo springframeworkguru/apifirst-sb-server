@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -20,6 +21,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Import(OpenApiValidationConfig.class)
 class ProductControllerTest extends BaseTest {
+
+    @Test
+    void testDeleteProductNotFound() throws Exception {
+        mockMvc.perform(delete(ProductController.BASE_URL + "/{productId}", UUID.randomUUID()))
+                .andExpect(status().isNotFound());
+    }
 
     @Test
     void testDeleteProduct() throws Exception {

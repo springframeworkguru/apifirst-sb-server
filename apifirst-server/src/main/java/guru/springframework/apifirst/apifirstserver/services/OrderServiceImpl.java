@@ -27,7 +27,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(UUID orderId) {
-        orderRepository.deleteById(orderId);
+        orderRepository.findById(orderId).ifPresentOrElse(orderRepository::delete, () -> {
+            throw new NotFoundException("Order Not Found");
+        });
     }
 
     @Override
