@@ -29,6 +29,12 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable("orderId") UUID orderId){
+        orderService.deleteOrder(orderId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PatchMapping("/{orderId}")
     public ResponseEntity<OrderDto> patchOrder(@PathVariable("orderId") UUID orderId,
                                                @RequestBody OrderPatchDto orderPatchDto){

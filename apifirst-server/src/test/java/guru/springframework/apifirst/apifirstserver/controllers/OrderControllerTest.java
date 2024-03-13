@@ -19,6 +19,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class OrderControllerTest extends BaseTest {
 
+    @Transactional
+    @Test
+    void testDeleteOrder() throws Exception {
+        OrderCreateDto dto = createNewOrderDto();
+        Order savedOrder = orderRepository.save(orderMapper.dtoToOrder(dto));
+
+        mockMvc.perform(delete(OrderController.BASE_URL + "/{orderId}", savedOrder.getId()))
+                .andExpect(status().isNoContent());
+
+        assert orderRepository.findById(savedOrder.getId()).isEmpty();
+    }
+
     @Test
     @Transactional
     void testPatchOrder() throws Exception {
@@ -63,14 +75,7 @@ class OrderControllerTest extends BaseTest {
     @Test
     @Transactional
     void testCreateOrder() throws Exception {
-        OrderCreateDto orderCreate = OrderCreateDto.builder()
-                .customerId(testCustomer.getId())
-                .selectPaymentMethodId(testCustomer.getPaymentMethods().get(0).getId())
-                .orderLines(Arrays.asList(OrderLineCreateDto.builder()
-                        .productId(testProduct.getId())
-                        .orderQuantity(1)
-                        .build()))
-                .build();
+        OrderCreateDto orderCreate = createNewOrderDto();
 
         System.out.println(objectMapper.writeValueAsString(orderCreate));
 
@@ -79,6 +84,17 @@ class OrderControllerTest extends BaseTest {
                         .content(objectMapper.writeValueAsString(orderCreate)))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
+    }
+
+    private OrderCreateDto createNewOrderDto() {
+        return OrderCreateDto.builder()
+                .customerId(testCustomer.getId())
+                .selectPaymentMethodId(testCustomer.getPaymentMethods().get(0).getId())
+                .orderLines(Arrays.asList(OrderLineCreateDto.builder()
+                        .productId(testProduct.getId())
+                        .orderQuantity(1)
+                        .build()))
+                .build();
     }
 
     @Test

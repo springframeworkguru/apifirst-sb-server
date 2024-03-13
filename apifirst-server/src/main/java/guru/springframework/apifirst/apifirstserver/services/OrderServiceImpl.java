@@ -26,6 +26,11 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
 
     @Override
+    public void deleteOrder(UUID orderId) {
+        orderRepository.deleteById(orderId);
+    }
+
+    @Override
     public OrderDto patchOrder(UUID orderId, OrderPatchDto orderPatchDto) {
         Order existingOrder = orderRepository.findById(orderId).orElseThrow();
         orderMapper.patchOrder(orderPatchDto, existingOrder);

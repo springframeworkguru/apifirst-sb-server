@@ -21,6 +21,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(OpenApiValidationConfig.class)
 class ProductControllerTest extends BaseTest {
 
+    @Test
+    void testDeleteProduct() throws Exception {
+        ProductCreateDto newProduct = createTestProductCreateDto();
+        Product savedProduct = productRepository.save(productMapper.dtoToProduct(newProduct));
+
+        mockMvc.perform(delete(ProductController.BASE_URL + "/{productId}", savedProduct.getId()))
+                .andExpect(status().isNoContent());
+
+        assert productRepository.findById(savedProduct.getId()).isEmpty();
+    }
+
     @Transactional
     @Test
     void testPatchProduct() throws Exception {
@@ -57,7 +68,18 @@ class ProductControllerTest extends BaseTest {
 
     @Test
     void testCreateProduct() throws Exception {
-        ProductCreateDto newProduct = ProductCreateDto.builder()
+        ProductCreateDto newProduct = createTestProductCreateDto();
+
+        mockMvc.perform(post(ProductController.BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newProduct)))
+                .andExpect(status().isCreated())
+                .andExpect(header().exists("Location"));
+
+    }
+
+    private ProductCreateDto createTestProductCreateDto() {
+        return ProductCreateDto.builder()
                 .description("New Product")
                 .cost("5.00")
                 .price("8.95")
@@ -72,13 +94,6 @@ class ProductControllerTest extends BaseTest {
                         .height(10)
                         .build())
                 .build();
-
-        mockMvc.perform(post(ProductController.BASE_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newProduct)))
-                .andExpect(status().isCreated())
-                .andExpect(header().exists("Location"));
-
     }
 
     @Test

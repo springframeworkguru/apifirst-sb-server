@@ -25,6 +25,11 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
+    public void deleteProduct(UUID productId) {
+        productRepository.deleteById(productId);
+    }
+
+    @Override
     public ProductDto patchProduct(UUID productId, ProductPatchDto product) {
         Product existingProduct = productRepository.findById(productId).orElseThrow();
         productMapper.patchProduct(product, existingProduct);
