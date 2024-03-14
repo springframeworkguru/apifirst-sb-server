@@ -87,6 +87,23 @@ public class CustomerControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.paymentMethods[0].displayName", equalTo("NEW NAME")));
     }
 
+    @Transactional
+    @DisplayName("Test Update Customer Not Found")
+    @Test
+    void testUpdateCustomerNotFound() throws Exception {
+        Customer customer = customerRepository.findAll().iterator().next();
+
+        customer.getName().setFirstName("Updated");
+        customer.getName().setLastName("Updated2");
+        customer.getPaymentMethods().get(0).setDisplayName("NEW NAME");
+
+        mockMvc.perform(put(CustomerController.BASE_URL + "/{customerId}", UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerMapper.customerToDto(customer))))
+                .andExpect(status().isNotFound());
+    }
+
     @DisplayName("Test Create Customer")
     @Test
     void testCreateCustomer() throws Exception {
