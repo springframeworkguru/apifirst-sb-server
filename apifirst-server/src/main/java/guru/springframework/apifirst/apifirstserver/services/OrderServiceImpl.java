@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderDto updateOrder(UUID orderId, OrderUpdateDto orderUpdateDto) {
-        Order existingOrder = orderRepository.findById(orderId).orElseThrow();
+        Order existingOrder = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
 
         orderMapper.updateOrder(orderUpdateDto, existingOrder);
 

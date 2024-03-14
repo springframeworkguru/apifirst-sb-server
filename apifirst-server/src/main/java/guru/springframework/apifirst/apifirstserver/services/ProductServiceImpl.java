@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto updateProduct(UUID productId, ProductUpdateDto product) {
-        Product existingProduct = productRepository.findById(productId).orElseThrow();
+        Product existingProduct = productRepository.findById(productId).orElseThrow(NotFoundException::new);
         productMapper.updateProduct(product, existingProduct);
         return productMapper.productToDto(productRepository.save(existingProduct));
     }

@@ -80,6 +80,24 @@ class OrderControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.orderLines[0].orderQuantity", equalTo(222)));
     }
 
+    @DisplayName("Test Update Order Not Found")
+    @Test
+    @Transactional
+    void testUpdateOrderNotFound() throws Exception {
+
+        Order order = orderRepository.findAll().get(0);
+
+        order.getOrderLines().get(0).setOrderQuantity(222);
+
+        OrderUpdateDto orderUpdate = orderMapper.orderToUpdateDto(order);
+
+        mockMvc.perform(put(OrderController.BASE_URL + "/{orderId}", UUID.randomUUID())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(orderUpdate))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
     @Test
     @Transactional
     void testCreateOrder() throws Exception {
