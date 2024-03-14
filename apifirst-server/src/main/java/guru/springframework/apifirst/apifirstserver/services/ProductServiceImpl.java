@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto patchProduct(UUID productId, ProductPatchDto product) {
-        Product existingProduct = productRepository.findById(productId).orElseThrow();
+        Product existingProduct = productRepository.findById(productId).orElseThrow(NotFoundException::new);
         productMapper.patchProduct(product, existingProduct);
         return productMapper.productToDto(productRepository.save(existingProduct));
     }

@@ -40,7 +40,7 @@ public class CustomerControllerTest extends BaseTest {
     }
 
     @Transactional
-    @DisplayName("Test Update Customer")
+    @DisplayName("Test Patch Customer")
     @Test
     void testPatchCustomer() throws Exception {
         Customer customer = customerRepository.findAll().iterator().next();
@@ -64,6 +64,30 @@ public class CustomerControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.name.firstName", equalTo("Updated")))
                 .andExpect(jsonPath("$.name.lastName", equalTo("Updated2")))
                 .andExpect(jsonPath("$.paymentMethods[0].displayName", equalTo("NEW NAME")));
+    }
+
+    @Transactional
+    @DisplayName("Test Patch Customer Not Found")
+    @Test
+    void testPatchCustomerNotFound() throws Exception {
+        Customer customer = customerRepository.findAll().iterator().next();
+
+        CustomerPatchDto customerPatch = CustomerPatchDto.builder()
+                .name(NameDto.builder()
+                        .firstName("Updated")
+                        .lastName("Updated2")
+                        .build())
+                .paymentMethods(Collections.singletonList(CustomerPaymentMethodPatchDto.builder()
+                        .id(customer.getPaymentMethods().get(0).getId())
+                        .displayName("NEW NAME")
+                        .build()))
+                .build();
+
+        mockMvc.perform(patch(CustomerController.BASE_URL + "/{customerId}", UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerPatch)))
+                .andExpect(status().isNotFound());
     }
     
     //test update customer

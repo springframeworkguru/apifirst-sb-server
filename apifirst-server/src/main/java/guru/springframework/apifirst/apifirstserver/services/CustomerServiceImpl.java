@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     @Override
     public CustomerDto patchCustomer(UUID customerId, CustomerPatchDto customer) {
-        Customer existingCustomer = customerRepository.findById(customerId).orElseThrow();
+        Customer existingCustomer = customerRepository.findById(customerId).orElseThrow(NotFoundException::new);
 
         customerMapper.patchCustomer(customer, existingCustomer);
 

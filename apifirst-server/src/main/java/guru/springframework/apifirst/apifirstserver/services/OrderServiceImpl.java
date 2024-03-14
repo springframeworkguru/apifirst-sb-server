@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto patchOrder(UUID orderId, OrderPatchDto orderPatchDto) {
-        Order existingOrder = orderRepository.findById(orderId).orElseThrow();
+        Order existingOrder = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
         orderMapper.patchOrder(orderPatchDto, existingOrder);
         return orderMapper.orderToDto(orderRepository.saveAndFlush(existingOrder));
     }

@@ -57,6 +57,23 @@ class ProductControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.description", equalTo("Updated Description")));
     }
 
+    @DisplayName("Test Patch Product Not Found")
+    @Transactional
+    @Test
+    void testPatchProductNotFound() throws Exception {
+
+        Product product = productRepository.findAll().iterator().next();
+
+        ProductPatchDto productPatchDto = productMapper.productToPatchDto(product);
+
+        productPatchDto.setDescription("Updated Description");
+
+        mockMvc.perform(patch(ProductController.BASE_URL + "/{productId}", UUID.randomUUID())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productPatchDto)))
+                .andExpect(status().isNotFound());
+    }
+
     @Transactional
     @Test
     void testUpdateProduct() throws Exception {
