@@ -67,6 +67,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto getCustomerById(UUID customerId) {
-        return customerMapper.customerToDto(customerRepository.findById(customerId).orElseThrow());
+        return customerMapper.customerToDto(customerRepository.findById(customerId).orElseThrow(NotFoundException::new));
     }
 }

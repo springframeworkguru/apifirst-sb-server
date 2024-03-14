@@ -122,6 +122,14 @@ public class CustomerControllerTest extends BaseTest {
                 .build();
     }
 
+    @DisplayName("Get by Id Not Found")
+    @Test
+    void testGetCustomerByIdNotFound() throws Exception {
+        mockMvc.perform(get(CustomerController.BASE_URL + "/{customerId}", UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
     @DisplayName("Get by Id")
     @Test
     void testGetCustomerById() throws Exception {
