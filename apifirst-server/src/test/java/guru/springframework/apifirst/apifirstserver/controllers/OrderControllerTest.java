@@ -3,6 +3,7 @@ package guru.springframework.apifirst.apifirstserver.controllers;
 
 import guru.springframework.apifirst.apifirstserver.domain.Order;
 import guru.springframework.apifirst.model.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -110,6 +111,14 @@ class OrderControllerTest extends BaseTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", greaterThan(0)));
+    }
+
+    @DisplayName("Test getOrderById Not Found")
+    @Test
+    void getOrderByIdNotFound() throws Exception {
+        mockMvc.perform(get(OrderController.BASE_URL + "/{orderId}", UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test

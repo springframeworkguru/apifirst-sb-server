@@ -4,6 +4,7 @@ package guru.springframework.apifirst.apifirstserver.controllers;
 import guru.springframework.apifirst.apifirstserver.config.OpenApiValidationConfig;
 import guru.springframework.apifirst.apifirstserver.domain.Product;
 import guru.springframework.apifirst.model.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -109,6 +110,14 @@ class ProductControllerTest extends BaseTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", greaterThan(0)));
+    }
+
+    @DisplayName("Test getProductById Not Found")
+    @Test
+    void getProductByIdNotFound() throws Exception {
+        mockMvc.perform(get(ProductController.BASE_URL + "/{productId}", UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test
