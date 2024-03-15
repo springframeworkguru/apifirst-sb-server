@@ -58,6 +58,12 @@
         </dependency>
         <dependency>
             <groupId>com.atlassian.oai</groupId>
+            <artifactId>swagger-request-validator-mockmvc</artifactId>
+            <version>${swagger.request.validator.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.oai</groupId>
             <artifactId>swagger-request-validator-spring-webmvc</artifactId>
             <version>${swagger.request.validator.version}</version>
             <exclusions>

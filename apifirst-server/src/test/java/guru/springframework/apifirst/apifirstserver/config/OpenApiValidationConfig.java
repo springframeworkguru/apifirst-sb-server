@@ -15,6 +15,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class OpenApiValidationConfig {
 
+    public static final String OA3_SPEC = "https://api.redocly.com/registry/bundle/spring-framework-guru/API%20First%20With%20Spring%20Boot%20-%20Development/v1/openapi.yaml?branch=development";
+
     @Bean
     public Filter validationFilter() {
 
@@ -27,7 +29,7 @@ public class OpenApiValidationConfig {
     @Bean
     public WebMvcConfigurer openAPIValidationInterceptor() {
 
-        OpenApiInteractionValidator validator = OpenApiInteractionValidator.createForSpecificationUrl("https://api.redocly.com/registry/bundle/spring-framework-guru/API%20First%20With%20Spring%20Boot%20-%20Development/v1/openapi.yaml?branch=development")
+        OpenApiInteractionValidator validator = OpenApiInteractionValidator.createForSpecificationUrl(OA3_SPEC)
                 .build();
 
         OpenApiValidationInterceptor interceptor = new OpenApiValidationInterceptor(validator);
