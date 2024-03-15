@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.UUID;
 
+import static com.atlassian.oai.validator.mockmvc.OpenApiValidationMatchers.openApi;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -24,7 +25,8 @@ class OrderControllerTest extends BaseTest {
     @Test
     void testDeleteNotFound() throws Exception {
         mockMvc.perform(delete(OrderController.BASE_URL + "/{orderId}", UUID.randomUUID()))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Transactional
@@ -34,7 +36,8 @@ class OrderControllerTest extends BaseTest {
         Order savedOrder = orderRepository.save(orderMapper.dtoToOrder(dto));
 
         mockMvc.perform(delete(OrderController.BASE_URL + "/{orderId}", savedOrder.getId()))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andExpect(openApi().isValid(OA3_SPEC));
 
         assert orderRepository.findById(savedOrder.getId()).isEmpty();
     }
@@ -58,7 +61,8 @@ class OrderControllerTest extends BaseTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(testOrder.getId().toString())))
-                .andExpect(jsonPath("$.orderLines[0].orderQuantity", equalTo(333)));
+                .andExpect(jsonPath("$.orderLines[0].orderQuantity", equalTo(333)))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @DisplayName("Test Patch Order Not Found")
@@ -79,7 +83,8 @@ class OrderControllerTest extends BaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orderPatch))
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Test
@@ -98,7 +103,8 @@ class OrderControllerTest extends BaseTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(testOrder.getId().toString())))
-                .andExpect(jsonPath("$.orderLines[0].orderQuantity", equalTo(222)));
+                .andExpect(jsonPath("$.orderLines[0].orderQuantity", equalTo(222)))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @DisplayName("Test Update Order Not Found")
@@ -116,7 +122,8 @@ class OrderControllerTest extends BaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orderUpdate))
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Test
@@ -130,7 +137,8 @@ class OrderControllerTest extends BaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orderCreate)))
                 .andExpect(status().isCreated())
-                .andExpect(header().exists("Location"));
+                .andExpect(header().exists("Location"))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     private OrderCreateDto createNewOrderDto() {
@@ -149,7 +157,8 @@ class OrderControllerTest extends BaseTest {
         mockMvc.perform(get(OrderController.BASE_URL)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", greaterThan(0)));
+                .andExpect(jsonPath("$.length()", greaterThan(0)))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @DisplayName("Test getOrderById Not Found")
@@ -157,7 +166,8 @@ class OrderControllerTest extends BaseTest {
     void getOrderByIdNotFound() throws Exception {
         mockMvc.perform(get(OrderController.BASE_URL + "/{orderId}", UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Test
@@ -165,6 +175,7 @@ class OrderControllerTest extends BaseTest {
         mockMvc.perform(get(OrderController.BASE_URL + "/{orderId}", testOrder.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(testOrder.getId().toString())));
+                .andExpect(jsonPath("$.id", equalTo(testOrder.getId().toString())))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 }

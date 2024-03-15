@@ -1,13 +1,11 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
 
-import guru.springframework.apifirst.apifirstserver.config.OpenApiValidationConfig;
 import guru.springframework.apifirst.apifirstserver.domain.Product;
 import guru.springframework.apifirst.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,20 +19,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@Import(OpenApiValidationConfig.class)
 class ProductControllerTest extends BaseTest {
 
     @Test
     void testDeleteConflictProductHasOrders() throws Exception {
         mockMvc.perform(delete(ProductController.BASE_URL + "/{productId}", testProduct.getId()))
                 .andExpect(status().isConflict())
-                .andExpect(openApi().isValid(OpenApiValidationConfig.OA3_SPEC));
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Test
     void testDeleteProductNotFound() throws Exception {
         mockMvc.perform(delete(ProductController.BASE_URL + "/{productId}", UUID.randomUUID()))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Test
@@ -43,7 +41,8 @@ class ProductControllerTest extends BaseTest {
         Product savedProduct = productRepository.save(productMapper.dtoToProduct(newProduct));
 
         mockMvc.perform(delete(ProductController.BASE_URL + "/{productId}", savedProduct.getId()))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andExpect(openApi().isValid(OA3_SPEC));
 
         assert productRepository.findById(savedProduct.getId()).isEmpty();
     }
@@ -62,7 +61,8 @@ class ProductControllerTest extends BaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productPatchDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.description", equalTo("Updated Description")));
+                .andExpect(jsonPath("$.description", equalTo("Updated Description")))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @DisplayName("Test Patch Product Not Found")
@@ -79,7 +79,8 @@ class ProductControllerTest extends BaseTest {
         mockMvc.perform(patch(ProductController.BASE_URL + "/{productId}", UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productPatchDto)))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Transactional
@@ -96,7 +97,8 @@ class ProductControllerTest extends BaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productUpdateDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.description", equalTo("Updated Description")));
+                .andExpect(jsonPath("$.description", equalTo("Updated Description")))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @DisplayName("Test Update Product Not Found")
@@ -113,7 +115,8 @@ class ProductControllerTest extends BaseTest {
         mockMvc.perform(put(ProductController.BASE_URL + "/{productId}", UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productUpdateDto)))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Test
@@ -124,7 +127,8 @@ class ProductControllerTest extends BaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newProduct)))
                 .andExpect(status().isCreated())
-                .andExpect(header().exists("Location"));
+                .andExpect(header().exists("Location"))
+                .andExpect(openApi().isValid(OA3_SPEC));
 
     }
 
@@ -151,7 +155,8 @@ class ProductControllerTest extends BaseTest {
         mockMvc.perform(get(ProductController.BASE_URL)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", greaterThan(0)));
+                .andExpect(jsonPath("$.length()", greaterThan(0)))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @DisplayName("Test getProductById Not Found")
@@ -159,7 +164,8 @@ class ProductControllerTest extends BaseTest {
     void getProductByIdNotFound() throws Exception {
         mockMvc.perform(get(ProductController.BASE_URL + "/{productId}", UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Test
@@ -167,6 +173,7 @@ class ProductControllerTest extends BaseTest {
         mockMvc.perform(get(ProductController.BASE_URL + "/{productId}", testProduct.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(testProduct.getId().toString())));
+                .andExpect(jsonPath("$.id", equalTo(testProduct.getId().toString())))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 }

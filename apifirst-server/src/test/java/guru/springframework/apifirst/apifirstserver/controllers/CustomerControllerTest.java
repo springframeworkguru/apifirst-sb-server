@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.UUID;
 
+import static com.atlassian.oai.validator.mockmvc.OpenApiValidationMatchers.openApi;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -28,13 +29,15 @@ public class CustomerControllerTest extends BaseTest {
         Customer customer = customerRepository.findAll().iterator().next();
 
         mockMvc.perform(delete(CustomerController.BASE_URL + "/{customerId}", customer.getId()))
-                .andExpect(status().isConflict());
+                .andExpect(status().isConflict())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Test
     void testDeleteNotFound() throws Exception {
         mockMvc.perform(delete(CustomerController.BASE_URL + "/{customerId}", UUID.randomUUID()))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Test
@@ -43,7 +46,8 @@ public class CustomerControllerTest extends BaseTest {
         Customer savedCustomer = customerRepository.save(customerMapper.dtoToCustomer(customer));
 
         mockMvc.perform(delete(CustomerController.BASE_URL + "/{customerId}", savedCustomer.getId()))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andExpect(openApi().isValid(OA3_SPEC));
 
         assert customerRepository.findById(savedCustomer.getId()).isEmpty();
     }
@@ -72,7 +76,8 @@ public class CustomerControllerTest extends BaseTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name.firstName", equalTo("Updated")))
                 .andExpect(jsonPath("$.name.lastName", equalTo("Updated2")))
-                .andExpect(jsonPath("$.paymentMethods[0].displayName", equalTo("NEW NAME")));
+                .andExpect(jsonPath("$.paymentMethods[0].displayName", equalTo("NEW NAME")))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Transactional
@@ -96,7 +101,8 @@ public class CustomerControllerTest extends BaseTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customerPatch)))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
     
     //test update customer
@@ -117,7 +123,8 @@ public class CustomerControllerTest extends BaseTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name.firstName", equalTo("Updated")))
                 .andExpect(jsonPath("$.name.lastName", equalTo("Updated2")))
-                .andExpect(jsonPath("$.paymentMethods[0].displayName", equalTo("NEW NAME")));
+                .andExpect(jsonPath("$.paymentMethods[0].displayName", equalTo("NEW NAME")))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @Transactional
@@ -134,7 +141,8 @@ public class CustomerControllerTest extends BaseTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customerMapper.customerToDto(customer))))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @DisplayName("Test Create Customer")
@@ -146,7 +154,8 @@ public class CustomerControllerTest extends BaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customer)))
                 .andExpect(status().isCreated())
-                .andExpect(header().exists("Location"));
+                .andExpect(header().exists("Location"))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     private CustomerDto buildTestCustomerDto() {
@@ -177,7 +186,8 @@ public class CustomerControllerTest extends BaseTest {
     void testGetCustomerByIdNotFound() throws Exception {
         mockMvc.perform(get(CustomerController.BASE_URL + "/{customerId}", UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @DisplayName("Get by Id")
@@ -186,7 +196,8 @@ public class CustomerControllerTest extends BaseTest {
         mockMvc.perform(get(CustomerController.BASE_URL + "/{customerId}", testCustomer.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(testCustomer.getId().toString()));
+                .andExpect(jsonPath("$.id").value(testCustomer.getId().toString()))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 
     @DisplayName("Test List Customers")
@@ -195,6 +206,7 @@ public class CustomerControllerTest extends BaseTest {
         mockMvc.perform(get(CustomerController.BASE_URL)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", greaterThan(0)));
+                .andExpect(jsonPath("$.length()", greaterThan(0)))
+                .andExpect(openApi().isValid(OA3_SPEC));
     }
 }

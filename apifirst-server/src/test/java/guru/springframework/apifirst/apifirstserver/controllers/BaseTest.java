@@ -10,8 +10,6 @@ import guru.springframework.apifirst.apifirstserver.mappers.ProductMapper;
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
-
-import jakarta.servlet.Filter;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,6 +20,8 @@ import org.springframework.web.context.WebApplicationContext;
  * Created by jt, Spring Framework Guru.
  */
 public class BaseTest {
+
+    public static final String OA3_SPEC = "https://api.redocly.com/registry/bundle/spring-framework-guru/API%20First%20With%20Spring%20Boot%20-%20Development/v1/openapi.yaml?branch=development";
 
     @Autowired
     CustomerRepository customerRepository;
@@ -45,9 +45,6 @@ public class BaseTest {
     WebApplicationContext wac;
 
     @Autowired
-    Filter validationFilter;
-
-    @Autowired
     ObjectMapper objectMapper;
 
     public MockMvc mockMvc;
@@ -59,11 +56,11 @@ public class BaseTest {
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                .addFilter(validationFilter)
                 .build();
 
         testCustomer = customerRepository.findAll().iterator().next();
         testProduct = productRepository.findAll().iterator().next();
         testOrder = orderRepository.findAll().iterator().next();
     }
+
 }
