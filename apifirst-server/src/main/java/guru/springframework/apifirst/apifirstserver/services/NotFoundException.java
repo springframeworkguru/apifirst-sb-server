@@ -1,31 +1,21 @@
 package guru.springframework.apifirst.apifirstserver.services;
 
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.zalando.problem.AbstractThrowableProblem;
 
 /**
  * Created by jt, Spring Framework Guru.
  */
-@ResponseStatus(value = org.springframework.http.HttpStatus.NOT_FOUND, reason = "Value Not Found")
-public class NotFoundException extends RuntimeException {
-
-    public NotFoundException() {
-    }
+public class NotFoundException extends AbstractThrowableProblem {
 
     public NotFoundException(String message) {
-        super(message);
+        super(null, message, org.zalando.problem.Status.NOT_FOUND);
     }
 
-    public NotFoundException(String message, Throwable cause){
-        super(message, cause);
+    public NotFoundException() {
+        super(null, "Requested Entity Not Found", org.zalando.problem.Status.NOT_FOUND);
     }
 
-    public NotFoundException(Throwable cause){
-        super(cause);
-    }
-
-    public NotFoundException(String message, Throwable cause,
-                              boolean enableSuppression,
-                              boolean writableStackTrace){
-        super(message, cause, enableSuppression, writableStackTrace);
+    public NotFoundException(String message, String detail) {
+        super(null, message, org.zalando.problem.Status.NOT_FOUND, detail);
     }
 }
