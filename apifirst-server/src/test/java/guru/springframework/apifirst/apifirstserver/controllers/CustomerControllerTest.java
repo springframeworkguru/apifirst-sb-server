@@ -145,6 +145,19 @@ public class CustomerControllerTest extends BaseTest {
                 .andExpect(openApi().isValid(OA3_SPEC));
     }
 
+    @DisplayName("Test Create Customer Bad Request")
+    @Test
+    void testCreateCustomerBadRequest() throws Exception {
+        CustomerDto customer = buildTestCustomerDto();
+        customer.setName(null);
+        customer.setBillToAddress(null);
+
+        mockMvc.perform(post(CustomerController.BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customer)))
+                .andExpect(status().isBadRequest());
+    }
+
     @DisplayName("Test Create Customer")
     @Test
     void testCreateCustomer() throws Exception {
