@@ -18,6 +18,7 @@
         <swagger.request.validator.version>2.39.0</swagger.request.validator.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <problem-spring-web.version>0.29.1</problem-spring-web.version>
+        <logbook.version>3.7.2</logbook.version>
     </properties>
 
     <dependencies>
@@ -56,6 +57,11 @@
             <groupId>org.zalando</groupId>
             <artifactId>problem-spring-web-starter</artifactId>
             <version>${problem-spring-web.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>logbook-spring-boot-starter</artifactId>
+            <version>${logbook.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
