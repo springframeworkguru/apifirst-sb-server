@@ -13,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class CategoryControllerTest extends BaseTest{
 
-
     @Test
     void testListCategories() throws Exception {
       mockMvc.perform(get(CategoryController.BASE_URL)

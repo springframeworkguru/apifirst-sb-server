@@ -28,5 +28,4 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDto>> listCategories(){
         return ResponseEntity.ok(categoryService.listCategories());
     }
-
 }
