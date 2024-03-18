@@ -22,4 +22,79 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <!--  findbugs dependency-->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <!--        hibernate validator-->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <!--        project lombok dependency-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.0.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <skip>true</skip>
+                            <inputSpec>https://api.redocly.com/registry/bundle/spring-framework-guru/API%20First%20With%20Spring%20Boot%20-%20Development/v1/openapi.yaml?branch=development</inputSpec>
+                            <generatorName>java</generatorName>
+                            <library>resttemplate</library>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <generateApiTests>false</generateApiTests>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <generateModelTests>false</generateModelTests>
+                            <generateAliasAsModel>false</generateAliasAsModel>
+                            <generateApis>false</generateApis>
+                            <modelPackage>guru.springframework.apifirst.model</modelPackage>
+                            <modelNameSuffix>Dto</modelNameSuffix>
+                            <configOptions>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                                <useJakartaEe>true</useJakartaEe>
+                                <useBeanValidation>true</useBeanValidation>
+                                <openApiNullable>false</openApiNullable>
+                                <additionalModelTypeAnnotations>@lombok.Builder @lombok.AllArgsConstructor</additionalModelTypeAnnotations>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

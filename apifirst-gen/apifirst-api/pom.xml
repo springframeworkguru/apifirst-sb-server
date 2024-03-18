@@ -54,32 +54,13 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.0.1</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>https://api.redocly.com/registry/bundle/spring-framework-guru/API%20First%20With%20Spring%20Boot%20-%20Development/v1/openapi.yaml?branch=development</inputSpec>
-                            <generatorName>java</generatorName>
-                            <library>resttemplate</library>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateApiTests>false</generateApiTests>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <generateModelTests>false</generateModelTests>
-                            <generateAliasAsModel>false</generateAliasAsModel>
-                            <generateApis>false</generateApis>
-                            <modelPackage>guru.springframework.apifirst.model</modelPackage>
-                            <modelNameSuffix>Dto</modelNameSuffix>
-                            <configOptions>
-                                <sourceFolder>src/gen/java/main</sourceFolder>
-                                <useJakartaEe>true</useJakartaEe>
-                                <useBeanValidation>true</useBeanValidation>
-                                <openApiNullable>false</openApiNullable>
-                                <additionalModelTypeAnnotations>@lombok.Builder @lombok.AllArgsConstructor</additionalModelTypeAnnotations>
-                            </configOptions>
+                            <skip>false</skip>
                         </configuration>
                     </execution>
                 </executions>
